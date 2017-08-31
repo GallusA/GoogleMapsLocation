@@ -59,7 +59,7 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
  * Created by gallusawa on 8/24/17.
  */
 
-public class MainActivityPresenter implements MainActivityContract.Presenter {
+public class MainActivityPresenter implements MainActivityContract.Presenter , MainActivityContract{
 
     private static final String TAG = "MainActivityPresenter";
     public static final String GEO_KEY = "AIzaSyAORqT5XlVO0ZiXXlXpLDpwYTwzTKSVobw";
@@ -67,10 +67,11 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     private static final int REQUEST_CHECK_SETTINGS = 1;
     MainActivityContract.View view;
     Context context;
-    Activity activity;
+
     LatLng yourLocation;
-    double newLat;
-    double newLong;
+    double newLattitude;
+    double newLongitude;
+    Activity activity;
     EditText etLatitude, etLongitude, etStreet, etCity, etState, etZip, etCountry;
     String lat = "";
     String lon = "";
@@ -82,11 +83,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
 
-
-    @Override
-    public void init(Activity activity) {
-        this.activity = activity;
-    }
 
     @Override
     public void checkLocationActive(final Activity activity) {
@@ -135,8 +131,27 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
 
+    @Override
+    public void init(Activity activity) {
+        this.activity = activity;
+        checkPermissions(activity);
+    }
 
 
+    private void checkPermissions(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        }
+    }
     @Override
     public void getContext(Context context) {
         this.context = context;
@@ -145,10 +160,10 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Override
     public void getLocation(String lat, String lon) {
 
-        newLat = Double.parseDouble(lat);
-        newLong = Double.parseDouble(lon);
+        newLattitude = Double.parseDouble(lat);
+        newLongitude = Double.parseDouble(lon);
 
-        yourLocation = new LatLng(newLat, newLong);
+        yourLocation = new LatLng(newLattitude, newLongitude);
         Bundle args = new Bundle();
         args.putParcelable("yourLocation", yourLocation);
         Intent intentMap = new Intent(activity, MapsActivity.class);
@@ -200,9 +215,9 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         if (gc.isPresent()) {
             try {
                 List<Address> list = gc.getFromLocationName(address, 1);
-                newLat = list.get(0).getLatitude();
-                newLong = list.get(0).getLongitude();
-                getLocation(String.valueOf(newLat),String.valueOf(newLong));
+                newLattitude = list.get(0).getLatitude();
+                newLongitude = list.get(0).getLongitude();
+                getLocation(String.valueOf(newLattitude),String.valueOf(newLongitude));
 
             } catch (IOException el) {
                 el.printStackTrace();

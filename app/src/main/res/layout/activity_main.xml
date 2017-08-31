@@ -7,38 +7,66 @@
     android:orientation="vertical"
     tools:context="com.example.gallusawa.googlemapslocation.view.mainActivity.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/etTexView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LATITUDE: "
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="30dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/etLatitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            />
-
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LONGITUDE: "
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="30dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etLatitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+
 
         <EditText
             android:id="@+id/etLongitude"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/etLatitude"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
             />
 
         <Button
@@ -108,7 +136,7 @@
                 android:id="@+id/etCity"/>
             <EditText
                 android:layout_width="130dp"
-                android:layout_height="wrap_content"
+                android:layout_height="57dp"
                 android:id="@+id/etState"/>
             <EditText
                 android:layout_width="120dp"

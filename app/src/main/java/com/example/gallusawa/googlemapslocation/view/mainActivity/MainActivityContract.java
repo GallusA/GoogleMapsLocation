@@ -18,7 +18,7 @@ import java.util.List;
    public interface MainActivityContract {
     interface View extends BaseView{
 
-        void checkPermissions(Activity activity);
+
         void getLocationNow(android.view.View view);
         void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults);
         void locationObtained(boolean isObtained);

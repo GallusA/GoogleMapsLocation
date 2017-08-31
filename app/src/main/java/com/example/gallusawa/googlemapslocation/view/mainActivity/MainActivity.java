@@ -1,49 +1,34 @@
 package com.example.gallusawa.googlemapslocation.view.mainActivity;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
+
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.gallusawa.googlemapslocation.R;
 import com.example.gallusawa.googlemapslocation.injection.MainActivity.DaggerMainActivityComponent;
-import com.example.gallusawa.googlemapslocation.model.AddressResponse;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.gson.Gson;
 
-import java.io.IOException;
 
 import javax.inject.Inject;
 
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
-    private static final int REQUEST_CHECK_SETTINGS = 1;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 10;
+    private static final int REQUEST_CHECK_SETTINGS = 8;
     @Inject
     MainActivityPresenter presenter;
     EditText etState,etCity,etCountry,etZip,etStreet,etLatitude,etLongitude;
     String lattitude = "";
     String longitude = "";
     String a, b, c, d, e = "";
-    Activity activity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,33 +47,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         etLongitude = (EditText) findViewById(R.id.etLongitude);
 
 
-
-
         presenter.attachView(this);
         presenter.getContext(this);
         presenter.init(this);
         presenter.checkLocationActive(this);
-        checkPermissions(activity);
+
 
 
     }
 
 
 
-    public void checkPermissions(Activity activity) {
-        if (ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-
-            } else {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-        }
-    }
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -103,7 +72,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 return;
             }
         }
+
     }
+
+
 
     public void getLocationNow(View view) {
         presenter.checkLocationActive(this);
@@ -150,4 +122,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void showerror(String s) {
 
     }
+
+
 }
